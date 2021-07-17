@@ -11,8 +11,7 @@ import java.util.List;
 
 
 public class DbWorker {
-    private final Logger infoLog = LoggerFactory.getLogger("info");
-    private final Logger errorLog = LoggerFactory.getLogger("error");
+    private final Logger log = LoggerFactory.getLogger(DbWorker.class);
     private Connection connection;
 
 
@@ -25,7 +24,7 @@ public class DbWorker {
         String SELECT_ALL_LOCATIONS = "SELECT * FROM location";
         List<Location> locations;
 
-        infoLog.info("Try to read locations from db");
+        log.info("Try to read locations from db");
 
         try (Statement statement = connection.createStatement()) {
             locations = new ArrayList<>();
@@ -39,11 +38,11 @@ public class DbWorker {
             }
 
         } catch (SQLException exception) {
-            errorLog.error("SQLException in method read locations");
+            log.error("SQLException in method read locations");
             throw new RuntimeException(exception);
         }
 
-        infoLog.info("Locations were read successfully");
+        log.info("Locations were read successfully");
         return locations;
     }
 
@@ -55,7 +54,7 @@ public class DbWorker {
                 "WHERE solution.price is NULL";
         List<Problem> problems;
 
-        infoLog.info("Try to read problems from db");
+        log.info("Try to read problems from db");
 
         try (Statement statement = connection.createStatement()) {
             problems = new ArrayList<>();
@@ -70,11 +69,11 @@ public class DbWorker {
             }
 
         } catch (SQLException exception) {
-            errorLog.error("SQLException in method read problems");
+            log.error("SQLException in method read problems");
             throw new RuntimeException(exception);
         }
 
-        infoLog.info("Problems were read successfully");
+        log.info("Problems were read successfully");
         return problems;
     }
 
@@ -84,7 +83,7 @@ public class DbWorker {
         String SELECT_ALL_ROUTES = "SELECT * FROM route";
         List<Route> routes;
 
-        infoLog.info("Try to read routes from db");
+        log.info("Try to read routes from db");
 
         try (Statement statement = connection.createStatement()) {
             routes = new ArrayList<>();
@@ -100,11 +99,11 @@ public class DbWorker {
             }
 
         } catch (SQLException exception) {
-            errorLog.error("SQLException in method read routes");
+            log.error("SQLException in method read routes");
             throw new RuntimeException(exception);
         }
 
-        infoLog.info("Routes were read successfully");
+        log.info("Routes were read successfully");
         return routes;
     }
 
@@ -113,7 +112,7 @@ public class DbWorker {
     public void writeSolutions(Connection connection, List<Solution> solutions) {
         String INSERT_SOLUTION = "INSERT INTO solution(problem_id, price) VALUES(?, ?)";
 
-        infoLog.info("Try to write solutions to db");
+        log.info("Try to write solutions to db");
 
         try (PreparedStatement insertSolution = connection.prepareStatement(INSERT_SOLUTION)) {
             for (Solution item : solutions) {
@@ -124,17 +123,17 @@ public class DbWorker {
             insertSolution.executeBatch();
 
         } catch (SQLException exception) {
-            errorLog.error("SQLException in method write solutions");
+            log.error("SQLException in method write solutions");
             throw new RuntimeException(exception);
         }
 
-        infoLog.info("Solutions were written successfully");
+        log.info("Solutions were written successfully");
     }
 
 
     public void setConnection(Connection connection) {
-        infoLog.info("Updating connection. Previous one: {}", this.connection);
+        log.info("Updating connection. Previous one: {}", this.connection);
         this.connection = connection;
-        infoLog.info("Connection was updated successfully. New connection: {}", this.connection);
+        log.info("Connection was updated successfully. New connection: {}", this.connection);
     }
 }
