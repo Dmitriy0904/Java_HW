@@ -54,7 +54,7 @@ public class AppProperties {
     }
 
 
-    private <T> T parseField(T object, Field fieldToParse, String annotationValue){
+    private <T> void parseField(T object, Field fieldToParse, String annotationValue){
         Class<?> typeOfField = fieldToParse.getType();
         try {
 
@@ -92,6 +92,5 @@ public class AppProperties {
             throw new RuntimeException(exception);
         }
 
-        return object;
     }
 }
