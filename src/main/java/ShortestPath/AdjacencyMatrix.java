@@ -6,8 +6,8 @@ import java.util.List;
 
 public class AdjacencyMatrix {
 
-    public static Integer[][] buildMatrix(List<Route> routes, List<Location> cities){
-        Integer [][] adjacencyMatrix = new Integer[cities.size()][cities.size()];
+    public static int[][] buildMatrix(List<Route> routes, List<Location> cities){
+        int [][] adjacencyMatrix = new int[cities.size()][cities.size()];
 
         for (Route item : routes){
             adjacencyMatrix[item.getId_from() - 1][item.getId_to() - 1] = item.getCost();

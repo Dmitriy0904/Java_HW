@@ -11,7 +11,7 @@ import static java.util.Arrays.fill;
 public class ShortestPath {
 
     public static Solution findShortestPath(List<Route> routes, List<Location> locations, Problem problem){
-        Integer[][]adjacencyMatrix = AdjacencyMatrix.buildMatrix(routes, locations);
+        int[][]adjacencyMatrix = AdjacencyMatrix.buildMatrix(routes, locations);
 
         Solution solution = new Solution();
         solution.setProblem_id(problem.getId());
@@ -27,7 +27,7 @@ public class ShortestPath {
     }
 
 
-    private static int[] dijkstraAlgorithm(Integer[][] adjacencyMatrix, int start) {
+    private static int[] dijkstraAlgorithm(int[][] adjacencyMatrix, int start) {
         int INF = Integer.MAX_VALUE / 2;
         int vNum = adjacencyMatrix.length;
         boolean[] used = new boolean [vNum];
