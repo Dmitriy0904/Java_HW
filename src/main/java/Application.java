@@ -13,7 +13,8 @@ public class Application {
 
     public static void run(){
         try {
-            Connection connection = ConnectionSetup.getConnection();
+            ConnectionSetup connectionSetup = new ConnectionSetup();
+            Connection connection = connectionSetup.getConnection();
             DbWorker dbWorker = new DbWorker(connection);
             List<Location> locations = dbWorker.readLocations();
             List<Problem> problems = dbWorker.readProblems();

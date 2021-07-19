@@ -11,10 +11,10 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class ConnectionSetup {
-    private static final String PROPS_PATH = "/jdbc.properties";
+    private final String PROPS_PATH = "/jdbc.properties";
     private static final Logger log = LoggerFactory.getLogger(ConnectionSetup.class);
 
-    public static Connection getConnection(){
+    public Connection getConnection(){
         Connection connectionToDb;
         Properties props = loadProperties();
         String url = props.getProperty("url");
@@ -33,7 +33,7 @@ public class ConnectionSetup {
     }
 
 
-    private static Properties loadProperties() {
+    private Properties loadProperties() {
         log.info("Try to load properties from {}",  PROPS_PATH);
         Properties props = new Properties();
 
