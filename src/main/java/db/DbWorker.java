@@ -1,8 +1,8 @@
 package db;
-import DataClasses.Location;
-import DataClasses.Problem;
-import DataClasses.Route;
-import DataClasses.Solution;
+import models.Location;
+import models.Problem;
+import models.Route;
+import models.Solution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.sql.*;
@@ -11,7 +11,7 @@ import java.util.List;
 
 
 public class DbWorker {
-    private final Logger log = LoggerFactory.getLogger(DbWorker.class);
+    private static final Logger log = LoggerFactory.getLogger(DbWorker.class);
     private Connection connection;
 
 
@@ -109,7 +109,7 @@ public class DbWorker {
 
 
 
-    public void writeSolutions(Connection connection, List<Solution> solutions) {
+    public void writeSolutions(List<Solution> solutions) {
         String INSERT_SOLUTION = "INSERT INTO solution(problem_id, price) VALUES(?, ?)";
 
         log.info("Try to write solutions to db");
