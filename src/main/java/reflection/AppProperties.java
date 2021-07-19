@@ -2,13 +2,12 @@ package reflection;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Properties;
 
 public class AppProperties {
-    private final Logger log = LoggerFactory.getLogger(AppProperties.class);
+    private static final Logger log = LoggerFactory.getLogger(AppProperties.class);
 
     public <T> T createObject(Class<T> objectClass){
         T newObject;
@@ -17,7 +16,8 @@ public class AppProperties {
             newObject = objectClass.getDeclaredConstructor().newInstance();
 
             log.info("Loading object properties");
-            Properties objectProps = PropsLoader.loadProperties();
+            PropsLoader propsLoader = new PropsLoader();
+            Properties objectProps = propsLoader.loadProperties();
 
             log.info("Get object fields");
             Field[] objectFields = objectClass.getDeclaredFields();

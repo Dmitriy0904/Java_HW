@@ -10,10 +10,10 @@ import java.io.UncheckedIOException;
 import java.util.Properties;
 
 public class PropsLoader {
-    private static final String PROPERTIES_PATH = Paths.PROPS_PATH.getPath();
+    private final String PROPERTIES_PATH = Paths.PROPS_PATH.getPath();
     private static final Logger log = LoggerFactory.getLogger(AppProperties.class);
 
-    public static Properties loadProperties(){
+    public Properties loadProperties(){
         log.info("Try to load properties from file {}", PROPERTIES_PATH);
         Properties properties = new Properties();
 
