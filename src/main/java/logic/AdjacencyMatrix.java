@@ -1,7 +1,7 @@
 package ShortestPath;
 
-import DataClasses.Location;
-import DataClasses.Route;
+import models.Location;
+import models.Route;
 import java.util.List;
 
 public class AdjacencyMatrix {

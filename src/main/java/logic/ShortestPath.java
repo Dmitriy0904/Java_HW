@@ -1,9 +1,9 @@
 package ShortestPath;
 
-import DataClasses.Location;
-import DataClasses.Problem;
-import DataClasses.Route;
-import DataClasses.Solution;
+import models.Location;
+import models.Problem;
+import models.Route;
+import models.Solution;
 import java.util.List;
 import static java.lang.Math.min;
 import static java.util.Arrays.fill;
