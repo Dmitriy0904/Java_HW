@@ -1,4 +1,4 @@
-package DataClasses;
+package models;
 
 public class Solution {
     private int problem_id;

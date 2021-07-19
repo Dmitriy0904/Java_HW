@@ -1,4 +1,4 @@
-package DataClasses;
+package models;
 
 public class Location {
     private int id;

@@ -1,4 +1,4 @@
-package ShortestPath;
+package logic;
 
 import models.Location;
 import models.Problem;

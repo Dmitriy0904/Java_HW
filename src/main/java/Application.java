@@ -1,8 +1,8 @@
-import DataClasses.Location;
-import DataClasses.Problem;
-import DataClasses.Route;
-import DataClasses.Solution;
-import ShortestPath.ShortestPath;
+import models.Location;
+import models.Problem;
+import models.Route;
+import models.Solution;
+import logic.ShortestPath;
 import db.*;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -25,7 +25,7 @@ public class Application {
                 solutions.add(newSolution);
             }
 
-            dbWorker.writeSolutions(connection, solutions);
+            dbWorker.writeSolutions(solutions);
             connection.close();
         } catch (SQLException exception) {
             throw new RuntimeException(exception);

@@ -1,4 +1,4 @@
-package DataClasses;
+package models;
 
 public class Route {
     private int id;
