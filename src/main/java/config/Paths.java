@@ -1,4 +1,4 @@
-package Config;
+package config;
 
 public enum Paths {
     PROPS_PATH("/app.properties");

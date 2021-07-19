@@ -1,6 +1,6 @@
-package Reflection;
+package reflection;
 
-import Config.Paths;
+import config.Paths;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

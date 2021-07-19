@@ -1,6 +1,6 @@
-package DataClass;
+package model;
 
-import Reflection.PropertyKey;
+import reflection.PropertyKey;
 
 public class Student {
     @PropertyKey("firstname")

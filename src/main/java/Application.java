@@ -1,5 +1,5 @@
-import DataClass.Student;
-import Reflection.AppProperties;
+import model.Student;
+import reflection.AppProperties;
 
 public class Application {
     public static void run(){
