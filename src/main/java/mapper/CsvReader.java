@@ -13,33 +13,33 @@ public class CsvReader {
     private String PATH;
     private static final Logger log = LoggerFactory.getLogger(CsvReader.class);
 
-    CsvReader(String path){
+    public CsvReader(String path){
         this.PATH = path;
     }
 
-    public List<String[]> readFile(String path){
+    public List<String[]> readFile(){
         List<String[]> info;
 
-        log.info("Try to read from csv file: {}", path);
+        log.info("Try to read from csv file: {}", PATH);
 
-        try(CSVReader reader = new CSVReader(new FileReader(path))) {
+        try(CSVReader reader = new CSVReader(new FileReader(PATH))) {
 
             info = reader.readAll();
 
         } catch (FileNotFoundException exception) {
-            log.error("FileNotFoundException in read csv file: {}", path);
+            log.error("FileNotFoundException in read csv file: {}", PATH);
             throw new RuntimeException(exception);
 
         } catch (IOException exception) {
-            log.error("IOException in read csv file: {}", path);
+            log.error("IOException in read csv file: {}", PATH);
             throw new RuntimeException(exception);
 
         } catch (CsvException exception) {
-            log.error("CsvException in read csv file: {}", path);
+            log.error("CsvException in read csv file: {}", PATH);
             throw new RuntimeException(exception);
         }
 
-        log.info("Info from file was read successfully");
+        log.info("Data from file was read successfully");
         return info;
     }
 
