@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import table.CsvTable;
 import java.util.*;
 
-
 public class CsvMapper {
     private Creator creator = new Creator();
     private String PATH;
@@ -45,5 +44,15 @@ public class CsvMapper {
         csvTable.setModels(students);
         log.info("Objects were mapped successfully");
         return csvTable;
+    }
+
+
+    public String getPATH() {
+        return PATH;
+    }
+
+
+    public void setPATH(String PATH) {
+        this.PATH = PATH;
     }
 }
