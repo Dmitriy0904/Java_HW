@@ -13,13 +13,13 @@ public class Student {
     private String faculty;
 
     @Mapped("course")
-    private Integer course;
+    private int course;
 
     @Mapped("group")
     private String group;
 
     @Mapped("scholarship")
-    private Boolean scholarship;
+    private boolean scholarship;
 
     public String getFirstname() {
         return firstname;
@@ -71,10 +71,13 @@ public class Student {
 
     @Override
     public String toString() {
-        return  firstname + " " + lastname +
-                " faculty:" + faculty +
-                " course: " + course +
-                " group: " + group +
-                " scholarship: " + scholarship;
+        return "Student{" +
+                "firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", faculty='" + faculty + '\'' +
+                ", course=" + course +
+                ", group='" + group + '\'' +
+                ", scholarship=" + scholarship +
+                '}';
     }
 }
