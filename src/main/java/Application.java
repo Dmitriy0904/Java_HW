@@ -1,4 +1,3 @@
-import config.Path;
 import mapper.CsvMapper;
 import model.Student;
 import table.CsvTable;
@@ -6,7 +5,7 @@ import java.util.List;
 
 public class Application {
     public static void run(){
-        CsvMapper csvMapper = new CsvMapper(Path.CSV_PATH.getPath());
+        CsvMapper csvMapper = new CsvMapper();
         CsvTable csvTable = csvMapper.mapObjects();
         printResult(csvTable);
     }

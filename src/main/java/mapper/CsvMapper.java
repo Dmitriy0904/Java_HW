@@ -8,14 +8,7 @@ import java.util.*;
 
 public class CsvMapper {
     private Creator creator = new Creator();
-    private String PATH;
     private static final Logger log = LoggerFactory.getLogger(CsvMapper.class);
-
-
-    public CsvMapper(String path) {
-        this.PATH = path;
-    }
-
 
     public CsvTable mapObjects(){
         CsvTable csvTable = new CsvTable();
@@ -23,7 +16,7 @@ public class CsvMapper {
         List<Student> students = new ArrayList<>();
 
         log.info("Starting to map objects. Initializing csv reader");
-        CsvReader csvReader = new CsvReader(PATH);
+        CsvReader csvReader = new CsvReader();
         List<String[]> data = csvReader.readFile();
         csvTable.setData(data);
 
@@ -44,15 +37,5 @@ public class CsvMapper {
         csvTable.setModels(students);
         log.info("Objects were mapped successfully");
         return csvTable;
-    }
-
-
-    public String getPATH() {
-        return PATH;
-    }
-
-
-    public void setPATH(String PATH) {
-        this.PATH = PATH;
     }
 }

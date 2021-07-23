@@ -10,12 +10,8 @@ import java.io.IOException;
 import java.util.List;
 
 public class CsvReader {
-    private String PATH;
+    private static final String PATH = "csv/students.csv";
     private static final Logger log = LoggerFactory.getLogger(CsvReader.class);
-
-    public CsvReader(String path){
-        this.PATH = path;
-    }
 
     public List<String[]> readFile(){
         List<String[]> info;
@@ -41,15 +37,5 @@ public class CsvReader {
 
         log.info("Data from file was read successfully");
         return info;
-    }
-
-
-    public String getPATH() {
-        return PATH;
-    }
-
-
-    public void setPATH(String PATH) {
-        this.PATH = PATH;
     }
 }
