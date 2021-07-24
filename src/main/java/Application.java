@@ -41,7 +41,7 @@ public class Application {
         //Проверка получения данных из таблциы по индексу и имени колонки
         for(int i = 0; i < csvTable.getData().size(); i++){
             for(String key : header.keySet()){
-                System.out.print(csvTable.get(i, header.get(key)) + " ");
+                System.out.print(csvTable.get(i, key) + " ");
             }
             System.out.println();
         }
