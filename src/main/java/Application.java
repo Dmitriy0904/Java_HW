@@ -2,10 +2,11 @@ import mapper.CsvMapper;
 import model.Student;
 import table.CsvTable;
 import java.util.List;
+import java.util.Map;
 
 public class Application {
-    public static void run(){
-        CsvMapper csvMapper = new CsvMapper();
+    public static void run(String  path){
+        CsvMapper csvMapper = new CsvMapper(path);
         CsvTable csvTable = csvMapper.mapObjects();
         printResult(csvTable);
     }
@@ -13,12 +14,12 @@ public class Application {
 
     private static void printResult(CsvTable csvTable){
         List<Student> students = csvTable.getModels();
-        List<String> header = csvTable.getHeader();
+        Map<String, Integer> header = csvTable.getHeader();
 
         System.out.println();
         //Проверка получения хедеров
-        for (String item : header) {
-            System.out.print(item + "  ");
+        for(String key : header.keySet()){
+            System.out.print(key + " ");
         }
 
         System.out.println();
@@ -39,8 +40,8 @@ public class Application {
         System.out.println();
         //Проверка получения данных из таблциы по индексу и имени колонки
         for(int i = 0; i < csvTable.getData().size(); i++){
-            for(int j = 0; j < csvTable.getData().get(i).length; j++){
-                System.out.print(csvTable.get(i, header.get(j)) + " ");
+            for(String key : header.keySet()){
+                System.out.print(csvTable.get(i, header.get(key)) + " ");
             }
             System.out.println();
         }

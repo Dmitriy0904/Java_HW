@@ -2,9 +2,10 @@ package table;
 
 import model.Student;
 import java.util.List;
+import java.util.Map;
 
 public class CsvTable{
-    private List<String> header;
+    private Map<String, Integer> header;
     private List<Student> models;
     private List<String[]> data;
 
@@ -16,7 +17,7 @@ public class CsvTable{
     }
 
     public String get(int row, String headerName) {
-        int column = header.indexOf(headerName);
+        int column = header.get(headerName);
         if(validateIndexes(row, column)){
             return data.get(row)[column];
         }
@@ -24,10 +25,9 @@ public class CsvTable{
     }
 
 
-    public List<String> getHeader() {
+    public Map<String, Integer> getHeader() {
         return header;
     }
-
 
     public List<Student> getModels() {
         return models;
@@ -39,10 +39,9 @@ public class CsvTable{
     }
 
 
-    public void setHeader(List <String> header) {
+    public void setHeader(Map<String, Integer> header) {
         this.header = header;
     }
-
 
     public void setModels(List<Student> models) {
         this.models = models;
