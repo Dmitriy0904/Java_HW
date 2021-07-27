@@ -15,9 +15,10 @@ public class Application {
         Controller controller = new Controller();
         NearestLessonFinder lessonFinder = new NearestLessonFinder();
 
-        log.info("Getting session factory");
+        log.info("Getting configurations");
         Configuration configuration = new Configuration().configure();
 
+        log.info("Getting session factory. Opening session");
         try(SessionFactory sessionFactory = configuration.buildSessionFactory();
             Session session = sessionFactory.openSession()){
             try {
