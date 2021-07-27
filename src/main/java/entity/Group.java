@@ -20,6 +20,46 @@ public class Group {
     @JoinColumn(name = "course_id")
     private Course course;
 
-    @OneToMany(mappedBy = "id")
-    private List<Lesson> lessons;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "id")
+    private List<Lesson> lessonsList;
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public List<Lesson> getLessons() {
+        return lessonsList;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setStudents(List<Student> students) {
+        this.students = students;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
+    }
+
+    public void setLessonsList(List<Lesson> lessonsList) {
+        this.lessonsList = lessonsList;
+    }
 }

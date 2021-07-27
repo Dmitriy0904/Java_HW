@@ -1,7 +1,6 @@
 package entity;
 
 import javax.persistence.*;
-import java.util.Calendar;
 import java.util.Date;
 
 @Entity
@@ -11,10 +10,9 @@ public class Lesson {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id")
     private Group group;
-
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "topic_id")
@@ -25,5 +23,46 @@ public class Lesson {
     private Teacher teacher;
 
     @Column(name = "date", nullable = false)
-    private Calendar date;
+    private Date date;
+
+    public Long getId() {
+        return id;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public Topic getTopic() {
+        return topic;
+    }
+
+    public Teacher getTeacher() {
+        return teacher;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
+    }
+
+    public void setTopic(Topic topic) {
+        this.topic = topic;
+    }
+
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 }
