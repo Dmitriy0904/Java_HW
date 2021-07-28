@@ -1,14 +1,12 @@
 package entity;
-
+import java.util.List;
 import java.util.Set;
 
 public class User {
     private Long id;
     private String firstname;
     private String lastname;
-    private Set<Account> accounts;      //Лист или сет?
-
-    //Дата регистрации
+    private List<Account> accounts;      //Лист или сет?
 
     public Long getId() {
         return id;
@@ -22,7 +20,7 @@ public class User {
         return lastname;
     }
 
-    public Set<Account> getAccounts() {
+    public List<Account> getAccounts() {
         return accounts;
     }
 
@@ -42,7 +40,7 @@ public class User {
         this.lastname = lastname;
     }
 
-    public void setAccounts(Set<Account> accounts) {
+    public void setAccounts(List<Account> accounts) {
         this.accounts = accounts;
     }
 }

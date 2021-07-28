@@ -6,8 +6,7 @@ public class Account {
     private Long id;
     private User user;
     private List<Operation> operations;
-    private Double totalAmount; //Все деньги на счёту у пользователя
-
+    private Double totalAmount;     //Все деньги на счёту у пользователя
 
     public Long getId() {
         return id;
