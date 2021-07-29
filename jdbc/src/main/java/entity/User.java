@@ -1,12 +1,9 @@
 package entity;
-import java.util.List;
-import java.util.Set;
 
 public class User {
     private Long id;
     private String firstname;
     private String lastname;
-    private List<Account> accounts;      //Лист или сет?
 
     public Long getId() {
         return id;
@@ -18,10 +15,6 @@ public class User {
 
     public String getLastname() {
         return lastname;
-    }
-
-    public List<Account> getAccounts() {
-        return accounts;
     }
 
     public String getFullName(){
@@ -38,9 +31,5 @@ public class User {
 
     public void setLastname(String lastname) {
         this.lastname = lastname;
-    }
-
-    public void setAccounts(List<Account> accounts) {
-        this.accounts = accounts;
     }
 }

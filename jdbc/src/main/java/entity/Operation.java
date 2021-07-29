@@ -4,51 +4,48 @@ import java.time.Instant;
 
 public class Operation {
     private Long id;
-    private String name;
-    private String description;
-    private Category category;
-    private Double value;
-    private Instant date;
-
-    //В MYSQL В ТАБЛИЦЕ ДОБАВИТЬ КОЛОНКУ С ДАТОЙ
+    private Long categoryId;
+    private Long accountId;
+    private Double amount;
+    private Instant date = Instant.now();
 
     public Long getId() {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public Long getCategoryId() {
+        return categoryId;
     }
 
-    public String getDescription() {
-        return description;
+    public Long getAccountId() {
+        return accountId;
     }
 
-    public Category getCategory() {
-        return category;
-    }
-
-    public Double getValue() {
-        return value;
+    public Double getAmount() {
+        return amount;
     }
 
     public Instant getDate() {
         return date;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setAccountId(Long accountId) {
+        this.accountId = accountId;
     }
 
-    public void setValue(Double value) {
-        this.value = value;
+    public void setDate(Instant date) {
+        this.date = date;
+    }
+
+    public void setAmount(Double amount) {
+        this.amount = amount;
     }
 }

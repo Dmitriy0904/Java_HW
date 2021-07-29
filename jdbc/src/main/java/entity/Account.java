@@ -1,42 +1,39 @@
 package entity;
 
-import java.util.List;
-
 public class Account {
     private Long id;
-    private User user;
-    private List<Operation> operations;
+    private Long userId;
     private Double totalAmount;     //Все деньги на счёту у пользователя
 
     public Long getId() {
         return id;
     }
 
-    public User getUser() {
-        return user;
+    public Long getUserId() {
+        return userId;
     }
 
-    public List<Operation> getOperations() {
-        return operations;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public void setOperations(List<Operation> operations) {
-        this.operations = operations;
+    public Double getTotalAmount() {
+        return totalAmount;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public void addOperation(){
-
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
-    public void deleteOperation(){
+    public void setTotalAmount(Double totalAmount) {
+        this.totalAmount = totalAmount;
+    }
 
+    public void changeTotalAmount(Double value, Boolean type){
+        if(type){
+            totalAmount += value;
+            return;
+        }
+        totalAmount -= value;
     }
 }
