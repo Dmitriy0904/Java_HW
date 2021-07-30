@@ -5,6 +5,8 @@ import entity.Operation;
 import entity.User;
 import java.sql.*;
 import java.time.Instant;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -150,12 +152,14 @@ public class DbWorker {
 
 
 
-    public List<Operation> exportData(Account account, Instant dateFrom, Instant dateTo){
-        String SELECT_OPERATIONS = "SELECT * FROM operations WHERE account_id = ? AND date BETWEEN '?' AND '?'";
+    public List<Operation> exportData(Long accountId, Timestamp dateFrom, Timestamp dateTo){
+
+        //Order by
+        String SELECT_OPERATIONS = "SELECT * FROM operations WHERE account_id = ? AND date BETWEEN ? AND ?";
         try (PreparedStatement selectOperations = connection.prepareStatement(SELECT_OPERATIONS)){
-            selectOperations.setLong(1, account.getId());
-            selectOperations.setTimestamp(2, Timestamp.from(dateFrom));
-            selectOperations.setTimestamp(3, Timestamp.from(dateTo));
+            selectOperations.setLong(1, accountId);
+            selectOperations.setTimestamp(2, dateFrom);
+            selectOperations.setTimestamp(3, dateTo);
 
             selectOperations.execute();
             ResultSet resultSet = selectOperations.getResultSet();
@@ -164,7 +168,13 @@ public class DbWorker {
 
             while (resultSet.next()){
                 Operation operation = new Operation();
-                //сеттеры
+
+                operation.setId(resultSet.getLong(1));
+                operation.setAccountId(resultSet.getLong(3));
+                operation.setCategoryId(resultSet.getLong(2));
+                operation.setAmount(resultSet.getDouble(4));
+                Instant dateTime = resultSet.getTimestamp(5).toInstant();
+                operation.setDate(dateTime);
 
                 operations.add(operation);
             }
