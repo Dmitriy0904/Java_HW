@@ -1,9 +1,9 @@
 import controller.Controller;
 import entity.*;
-import logic.NearestLessonFinder;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,7 +13,6 @@ public class Application {
 
     public static void run(){
         Controller controller = new Controller();
-        NearestLessonFinder lessonFinder = new NearestLessonFinder();
 
         log.info("Getting configurations");
         Configuration configuration = new Configuration().configure();
@@ -32,7 +31,10 @@ public class Application {
                 Student student = session.find(Student.class, studentId);
 
                 log.info("Finding nearest lesson for student id:" + student.getId());
-                Lesson nearestLesson = lessonFinder.findNearestLesson(student);
+                String sqlRequest = "Select l FROM Lesson l WHERE l.group = " + student.getGroup().getId() + " ORDER BY l.date";
+                Query<Lesson> query = session.createQuery(sqlRequest, Lesson.class);
+                query.setMaxResults(1);
+                Lesson nearestLesson = query.getSingleResult();
 
                 log.info("Printing results");
                 controller.printResult(student, nearestLesson);
