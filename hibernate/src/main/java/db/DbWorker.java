@@ -64,15 +64,17 @@ public class DbWorker {
     }
 
 
-    public List<Operation> getOperationsBetweenDates(Long accountId, Instant dateFrom, Instant dateTo){
+    public List<Operation> getOperationsBetweenDates(Long accountId, String strDateFrom, String strDateTo){
         try {
             session.beginTransaction();
 
         //УСТАНОВИТЬ ЕЩЁ ОРДЕР БАЙ
-            String sqlRequest ="SELECT o FROM Operation o WHERE o.account = ? AND date BETWEEN 'from' AND 'to'";
+            String sqlRequest ="SELECT o FROM Operation o WHERE o.account = accountId AND date BETWEEN 'from' AND 'to'";
             Query<Operation> query = session.createQuery(sqlRequest, Operation.class);
-            query.setParameter("from", Timestamp.from(dateFrom));
-            query.setParameter("to", Timestamp.from(dateTo));
+            //Не устанавливается параметр
+            query.setParameter("accountId", accountId);
+            query.setParameter("from", strDateFrom);
+            query.setParameter("to", strDateTo);
             List<Operation> operations = query.getResultList();
 
             session.getTransaction().commit();
@@ -84,9 +86,6 @@ public class DbWorker {
             throw new RuntimeException(exception);
         }
     }
-
-
-    //Метод updateAccount
 
 
     public void setSession(Session session) {
