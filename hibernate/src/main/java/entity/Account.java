@@ -21,8 +21,6 @@ public class Account {
     private Double totalAmount;     //Все деньги на счёту у пользователя
 
 
-
-
     public Long getId() {
         return id;
     }
@@ -33,6 +31,10 @@ public class Account {
 
     public List<Operation> getOperations() {
         return operations;
+    }
+
+    public Double getTotalAmount() {
+        return totalAmount;
     }
 
     public void setUser(User user) {
@@ -47,11 +49,15 @@ public class Account {
         this.id = id;
     }
 
-    public void addOperation(){
-
+    public void addOperation(Operation operationToAdd){
+        operations.add(operationToAdd);
     }
 
-    public void deleteOperation(){
-
+    public void changeTotalAmount(Double value, Boolean type){
+        if(type){
+            totalAmount += value;
+            return;
+        }
+        totalAmount -= value;
     }
 }

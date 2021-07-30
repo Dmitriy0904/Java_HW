@@ -56,8 +56,4 @@ public class Operation {
     public void setAmount(Double amount) {
         this.amount = amount;
     }
-
-    public void setDate(Instant date) {
-        this.date = date;
-    }
 }
