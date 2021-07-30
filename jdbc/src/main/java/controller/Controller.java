@@ -4,47 +4,62 @@ import entity.Account;
 import entity.Category;
 import entity.Operation;
 import entity.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import service.DataExportService;
 import service.DbService;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.Connection;
+import java.sql.Timestamp;
 import java.util.List;
 
-
 public class Controller {
-    private DbService dbService;
     private Long userId;
+    private DbService dbService;
+    private DataExportService dataExportService;
+    private static final Logger info = LoggerFactory.getLogger("info");
+    private static final Logger warn = LoggerFactory.getLogger("warn");
+    private static final Logger error = LoggerFactory.getLogger("error");
+
 
     public Controller(Long userId, Connection connection) {
         this.dbService = new DbService(connection);
         this.userId = userId;
+        dataExportService = new DataExportService();
     }
 
-    //Логи
 
     public void userInterface(){
-        //ПРоверка на то, что такой пользователь не найден
+        info.info("Finding user by id: {}", userId);
         User user = dbService.findUserById(userId);
+        info.info("User with id:{} was found successfully", userId);
 
-        //Бесконечный цикл
+        String choose;
         try(BufferedReader bf = new BufferedReader(new InputStreamReader(System.in))){
+//            do{
+                System.out.println("Choose what do you want to do: 1-add operation, 2-export data, 0-exit");
+                choose = bf.readLine();
 
-            System.out.println("Choose what do you want to do: 1-add operation, 2-export data, 0-exit");
-            switch (bf.readLine()){
-                case "1" -> addOperation(user);
-                case "2" -> exportData(user);
-                case "0" -> { return; }
-                default -> System.out.println("Incorrect data entered. Please try again");
-            }
-        } catch (IOException exception){
+                switch (choose){
+                    case "1" -> addOperation(user);
+                    case "2" -> exportData(user);
+                    case "0" -> { return; }
+                    default -> System.out.println("Incorrect data entered. Please try again");
+                }
+
+//            } while (bf.readLine() != null);
+
+        } catch (IOException | RuntimeException exception){
             System.out.println("Incorrect data entered. Please try again");
         }
-
     }
 
 
     private void addOperation(User user){
+        info.info("User id:{} adding new operation", userId);
+
         try (BufferedReader bf = new BufferedReader(new InputStreamReader(System.in))){
             Operation operationToAdd = new Operation();
 
@@ -60,22 +75,28 @@ public class Controller {
             Double amount = Double.parseDouble(bf.readLine());
             operationToAdd.setAmount(amount);
 
-            //Нужно ли проверять есть ли у пользователя воможность совершить операцию?
-            //Например у него на счету 100 грн, а он хочет совершить операцию на -200 грн
             account.changeTotalAmount(amount, category.getType());
             dbService.updateAccount(account);
 
             dbService.insertOperation(operationToAdd);
             System.out.println("Operation was added successfully");
+            info.info("New operation was added successfully by user:{}", userId);
+
+            info.info("User id:{} checking account id:{} balance", userId, account.getId());
             checkAccountBalance(account, bf);
+            info.info("Balance in account id:{} was checked successfully bu user id:{}", account.getId(), userId);
+
 
         } catch (IOException exception){
+            error.error("IOException in adding new operation by user:{}; Reason{}", userId, exception.getMessage());
             System.out.println("Incorrect data entered. Please try again");
         }
     }
 
 
     private Account chooseAccount(User user, BufferedReader reader){
+        info.info("User id:{} choosing the account", userId);
+
         List<Account> accounts = dbService.getUserAccounts(user.getId());
         try {
             for(int i = 0; i < accounts.size(); i ++){
@@ -87,63 +108,47 @@ public class Controller {
             //Мб првоерять на стороне сервиса
             Integer index = Integer.parseInt(reader.readLine());
             if(index - 1 < 0 || index - 1 > accounts.size()){
+                error.error("Incorrect index entered in choosing account by user id:{}", userId);
                 throw new RuntimeException("Incorrect index entered");
             }
 
-            return accounts.get(index - 1);
+            Account chosenAccount = accounts.get(index - 1);
+            info.info("User id:{} successfully chose an account. Chosen account id:{}", userId, chosenAccount.getId());
+            return chosenAccount;
 
         } catch (IOException exception){
-            throw new RuntimeException("Incorrect value entered");
+            error.error("IOException in choosing account by user id:{}; Reason:{}", userId, exception.getMessage());
+            throw new RuntimeException("Incorrect value entered. Please, try again");
         }
     }
 
 
     private Category chooseCategory(Long accountId, BufferedReader reader){
+        info.info("User id:{} choosing category", userId);
+
         List<Category> categories = dbService.getAccountCurrentCategories(accountId);
         try{
             for(int i = 0; i < categories.size(); i++){
                 System.out.println("Category #" + (i + 1) +
                         " Name: " + categories.get(i).getName());
             }
-            System.out.println("Choose the index of category, or press 0 to create new category");
 
+            System.out.println("Choose the index of category:");
             Integer index = Integer.parseInt(reader.readLine());
-            if(index == 0){
-                Category category = createCategory(reader);
-                return category;
-            }
 
             if(index -1 < 0 || index - 1  > categories.size()){
+                error.error("Incorrect index entered in choosing category by user id:{}", userId);
                 throw new RuntimeException("Incorrect index entered");
             }
 
-            return categories.get(index - 1);
+            Category chosenCategory = categories.get(index - 1);
+            info.info("User id:{} successfully chose category. Chosen category id:{}", userId, chosenCategory.getId());
+            return chosenCategory;
 
         } catch (IOException exception){
-            throw new RuntimeException("Incorrect value entered");
+            error.error("IOException in choosing category by user id:{}; Reason:{}", userId, exception.getMessage());
+            throw new RuntimeException("Incorrect value entered. Please try again");
         }
-    }
-
-
-    private Category createCategory(BufferedReader reader) throws IOException{
-        Category newCategory = new Category();
-        String name = readNameNewCategory(reader);
-        newCategory.setName(name);
-
-        System.out.println("Do you want to enter description? 1-yes, else-no");
-        if(reader.readLine().equals("1")){
-            String description = readDescriptionNewCategory(reader);
-            newCategory.setDescription(description);
-        }
-
-        Boolean type = readTypeNewCategory(reader);
-        newCategory.setType(type);
-
-        dbService.insertCategory(newCategory);
-        System.out.println("Your category was created successfully");
-        //Не получается получить айди, тк оно генерируется бд. Тем самым не получатся добавить
-        //Эту категорию пользователю
-        return newCategory;
     }
 
 
@@ -170,6 +175,7 @@ public class Controller {
         };
     }
 
+
     private void checkAccountBalance(Account account, BufferedReader reader) throws IOException{
         System.out.println("Do you want to check your current balance? 1-yes, else-no");
         if(reader.readLine().equals("1")){
@@ -179,20 +185,56 @@ public class Controller {
 
 
     private void exportData(User user){
+        info.info("User id:{} trying to export data", userId);
+
         try(BufferedReader bf = new BufferedReader(new InputStreamReader(System.in))){
 
             System.out.println("Choose the account the data from which you want to export:");
+            Account account = chooseAccount(user, bf);
 
             System.out.println("You should to enter diapason of dates between you want to export data");
+            System.out.println("Enter first date from which you want to get operations");
+            Timestamp dateFrom = readDateTime(bf);
 
-            //Дать пользователю возможность ввести путь где сохранить файл
-            //Или дефолтный путь
-            System.out.println("Enter the path where you want to save the file");
+            System.out.println("Enter second date to which you want to get operations");
+            Timestamp dateTo = readDateTime(bf);
 
+            List<Operation> operations = dbService.getOperationsBetweenDates(account.getId(), dateFrom, dateTo);
+
+            System.out.println("Enter the path where you want to save the data");
+            String pathToFile = bf.readLine();
+
+            System.out.println("Enter name of the file where you want to save the data");
+            //Мб предложить назвать текщей датой
+            String fileName = bf.readLine();
+
+            String path = pathToFile + fileName + ".csv";
+            dataExportService.exportDataToCsvFile(operations, path);
+
+            System.out.println("Data has been successfully exported");
+            info.info("User id:{} exported data successfully", userId);
 
         } catch (IOException exception){
+            error.error("IOException in exporting data by user id:{}; Reason:{}", userId, exception.getMessage());
             System.out.println("Incorrect data entered. Please try again");
         }
+    }
+
+
+    private Timestamp readDateTime(BufferedReader reader) throws IOException{
+        String strDate, strTime;
+
+        System.out.println("Enter date in format yyyy-mm-dd: ");
+        strDate = reader.readLine();
+        System.out.println("Do you want to enter time? 1-yes, else-no");
+        if(reader.readLine().equals("1")){
+            System.out.println("Enter time in format hh:mm:ss");
+            strTime = reader.readLine();
+        } else {
+            strTime = "0:0:0";
+        }
+
+        return Timestamp.valueOf(strDate + " " + strTime);
     }
 
 }
