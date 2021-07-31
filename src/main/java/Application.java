@@ -7,6 +7,9 @@ import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.Instant;
+import java.util.Date;
+
 
 public class Application {
     private static final Logger log = LoggerFactory.getLogger(Application.class);
@@ -31,8 +34,10 @@ public class Application {
                 Student student = session.find(Student.class, studentId);
 
                 log.info("Finding nearest lesson for student id:" + student.getId());
-                String sqlRequest = "Select l FROM Lesson l WHERE l.group = " + student.getGroup().getId() + " ORDER BY l.date";
+                String sqlRequest = "Select l FROM Lesson l WHERE l.group.id = :id AND l.date > :currentDate ORDER BY l.date";
                 Query<Lesson> query = session.createQuery(sqlRequest, Lesson.class);
+                query.setParameter("id", student.getGroup().getId());
+                query.setParameter("currentDate", new Date());
                 query.setMaxResults(1);
                 Lesson nearestLesson = query.getSingleResult();
 
