@@ -18,7 +18,7 @@ public class Account {
     private List<Operation> operations;
 
     @Column(name = "money", nullable = false)
-    private Double totalAmount;     //Все деньги на счёту у пользователя
+    private Long totalAmount;     //Все деньги на счёту у пользователя
 
 
     public Long getId() {
@@ -33,7 +33,7 @@ public class Account {
         return operations;
     }
 
-    public Double getTotalAmount() {
+    public Long getTotalAmount() {
         return totalAmount;
     }
 
@@ -53,11 +53,16 @@ public class Account {
         operations.add(operationToAdd);
     }
 
-    public void changeTotalAmount(Double value, Boolean type){
+    public void changeTotalAmount(double value, Boolean type){
+        long amount = (long)(value * 100);
         if(type){
-            totalAmount += value;
+            totalAmount += amount;
             return;
         }
-        totalAmount -= value;
+        totalAmount -= amount;
+    }
+
+    public Double getFormattedTotalAmount(){
+        return (double) (totalAmount / 100);
     }
 }

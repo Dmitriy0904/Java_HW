@@ -49,8 +49,10 @@ public class OperationController {
 
                 System.out.println("Enter the amount");
                 Double amount = Double.parseDouble(bf.readLine());
+                if(amount < 0){
+                    throw new IOException("Negative amount value was entered");
+                }
                 newOperation.setAmount(amount);
-
                 account.changeTotalAmount(amount, category.getType());
 
                 operationService.insertOperation(newOperation);
@@ -77,7 +79,7 @@ public class OperationController {
             for(int i = 0; i < accounts.size(); i ++){
                 System.out.println("Account #" + (i + 1) +
                         " id:" + accounts.get(i).getId() +
-                        " amount of money:" + accounts.get(i).getTotalAmount());
+                        " amount of money:" + accounts.get(i).getFormattedTotalAmount());
             }
 
             Integer index = Integer.parseInt(reader.readLine());
@@ -171,7 +173,7 @@ public class OperationController {
     private void checkAccountBalance(Account account, BufferedReader reader) throws IOException{
         System.out.println("Do you want to check your current balance? 1-yes, else-no");
         if(reader.readLine().equals("1")){
-            System.out.println("Current amount of money: " + account.getTotalAmount());
+            System.out.println("Current amount of money: " + account.getFormattedTotalAmount());
         }
     }
 }

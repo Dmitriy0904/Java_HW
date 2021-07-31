@@ -20,7 +20,7 @@ public class Operation {
     private Account account;
 
     @Column(name = "amount", nullable = false)
-    private Double amount;
+    private Long amount;
 
     @Column(name = "date", nullable = false)
     private Timestamp date = Timestamp.from(Instant.now());
@@ -38,7 +38,7 @@ public class Operation {
         return account;
     }
 
-    public Double getAmount() {
+    public Long getAmount() {
         return amount;
     }
 
@@ -59,6 +59,11 @@ public class Operation {
     }
 
     public void setAmount(Double amount) {
-        this.amount = amount;
+        long value = (long)(amount * 100);
+        this.amount = value;
+    }
+
+    public Double getFormattedAmount(){
+        return (double)amount / 100;
     }
 }
