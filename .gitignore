@@ -12,7 +12,5 @@
 *.zip
 *.tar.gz
 *.rar
-jdbc/logs/
-hibernate/logs/
-jdbc/target/
-hibernate/target/
+/target
+/logs
