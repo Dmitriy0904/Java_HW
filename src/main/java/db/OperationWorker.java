@@ -2,22 +2,31 @@ package db;
 
 import entity.Category;
 import entity.Operation;
+import entity.User;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.sql.Timestamp;
 import java.util.List;
 
 
-public class DbWorker {
-    private Session session;
-    private static final Logger info = LoggerFactory.getLogger(DbWorker.class);
-    private static final Logger error = LoggerFactory.getLogger(DbWorker.class);
+public class OperationWorker {
+    private final Session session;
+    private static final Logger info = LoggerFactory.getLogger(OperationWorker.class);
+    private static final Logger error = LoggerFactory.getLogger(OperationWorker.class);
 
-    public DbWorker(Session session) {
+    public OperationWorker(Session session) {
         this.session = session;
     }
+
+    public User findUserById(Long userId){
+        return session.find(User.class, userId);
+    }
+
 
     public void insertOperation(Operation operationToInsert){
         try{
@@ -70,30 +79,4 @@ public class DbWorker {
             throw new RuntimeException(exception);
         }
     }
-
-
-    public List<Operation> getOperationsBetweenDates(Long accountId, Timestamp strDateFrom, Timestamp strDateTo){
-        try {
-            info.info("Starting transaction getting operations between dates. Account id:{}", accountId);
-            session.beginTransaction();
-
-            String sqlRequest ="SELECT o FROM Operation o WHERE o.account.id = :id AND o.date BETWEEN :from AND :to ORDER BY o.date";
-            Query<Operation> query = session.createQuery(sqlRequest, Operation.class);
-            query.setParameter("id", accountId);
-            query.setParameter("from", strDateFrom);
-            query.setParameter("to", strDateTo);
-
-            List<Operation> operations = query.getResultList();
-            session.getTransaction().commit();
-            info.info("Getting operations between dates transaction was completed successfully. Account id:{}", accountId);
-
-            return operations;
-
-        } catch (Exception exception){
-            error.error("Exception in getting operations between dates transaction. Account id:{} Reason:{}", accountId, exception.getMessage());
-            session.getTransaction().rollback();
-            throw new RuntimeException(exception);
-        }
-    }
-
 }
