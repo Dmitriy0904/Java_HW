@@ -43,7 +43,7 @@ public class Controller {
     public void userInitialization(BufferedReader reader){
         info.info("Starting initialization user and db");
         try{
-            System.out.println("Enter user id:)");
+            System.out.println("Enter user id:");
             this.userId = Long.parseLong(reader.readLine());
 
             System.out.println("Enter database username");
