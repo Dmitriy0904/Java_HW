@@ -6,7 +6,6 @@ import java.awt.image.ImagingOpException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Scanner;
 
 public class Controller {
     private Long userId;
@@ -15,13 +14,6 @@ public class Controller {
     private static final Logger info = LoggerFactory.getLogger("info");
     private static final Logger warn = LoggerFactory.getLogger("warn");
     private static final Logger error = LoggerFactory.getLogger("error");
-
-
-    public Controller() {
-//        this.userId = userId;
-//        this.dbUsername = dbUsername;
-//        this.dbPassword = dbPassword;
-    }
 
 
     public void userInterface(){
@@ -49,6 +41,7 @@ public class Controller {
 
 
     public void userInitialization(BufferedReader reader){
+        info.info("Starting initialization user and db");
         try{
             System.out.println("Enter user id:)");
             this.userId = Long.parseLong(reader.readLine());
@@ -59,7 +52,10 @@ public class Controller {
             System.out.println("Enter database password");
             this.dbPassword = reader.readLine();
 
+            info.info("Initialization variables were read successfully");
+
         } catch (IOException exception){
+            error.error("IOException in initialization user. Reason:{}", exception.getMessage());
             throw new RuntimeException(exception);
         }
 

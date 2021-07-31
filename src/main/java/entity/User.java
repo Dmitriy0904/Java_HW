@@ -16,7 +16,7 @@ public class User {
     private String lastname;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    private List<Account> accounts;      //Лист или сет?
+    private List<Account> accounts;
 
 
 

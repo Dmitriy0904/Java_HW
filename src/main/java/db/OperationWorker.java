@@ -4,13 +4,9 @@ import entity.Category;
 import entity.Operation;
 import entity.User;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.sql.Timestamp;
 import java.util.List;
 
 
